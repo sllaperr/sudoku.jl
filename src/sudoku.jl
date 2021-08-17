@@ -35,9 +35,9 @@ module SudokuSolver
     ```
     """
     function show_sudoku(sudoku)
-        # Michiel: show 0 as a '-' or '.'?
     	for i in 1:9
 	    	line = ""
+
 		    if i == 4 || i == 7
 			    println("-----------")
     		end
@@ -45,7 +45,11 @@ module SudokuSolver
 		    	if j == 4 || j == 7
 			    	line = line * "|"
     			end
-	    		line = line * string(sudoku[i,j])
+                if string(sudoku[i,j]) == 0
+                    line = line * '.'
+                else
+	    		    line = line * string(sudoku[i,j])
+                end
 		    end
     		println(line)
 	    end
@@ -125,7 +129,6 @@ module SudokuSolver
     ```
     """
     function freq_table(row)
-        # Michiel: fine, but know that a bitarray would be *much* faster here
     	freqs = Dict()
 	    for value in row
 		    if haskey(freqs, value)
@@ -256,7 +259,6 @@ module SudokuSolver
     ```
     """
     function fixed_values(sudoku)
-        # michiel: why not sudoku .== 0 ? (or `!ismissing.(sudoku)` if you use a data type)
     	fixed = zero(sudoku)
 	    for i in 1:9
 		    for j in 1:9
@@ -343,9 +345,8 @@ module SudokuSolver
     ```
     """
     function pick(list)
-        # Michiel: alternative: i = rand(1:length(list)); value = popat!(list, i)
-		value = rand(list)
-    	deleteat!(list, findfirst(x -> x==value, list))
+		i = rand(1:length(list))
+    	value = popat!(list, i)
 	    return value, list
     end
 
@@ -462,13 +463,7 @@ module SudokuSolver
     ```
     """
     function not_fixed(fixed)
-        # Michiel: findall(isequal(0), sudoku) / findall(ismissing, sudoku) 
-    	nonfixed = []
-	    for (i, v) in enumerate(fixed)
-		    if v == 0
-			    append!(nonfixed, i)
-    		end
-	    end
+    	nonfixed = findall(isequal(0), fixed)
     	return nonfixed
     end
 
@@ -563,13 +558,12 @@ module SudokuSolver
     end
 
     """
-        swap(sudoku, fixed, blocks, possible)
+        swap(sudoku, blocks, possible)
 
     Randomly swaps the values of two non-fixed positions within the same (random) block. Generates a new state.
     ```
     """
-    function swap(sudoku, fixed, blocks, possible)
-        # Michiel: fixed is not used here?
+    function swap(sudoku, blocks, possible)
     	blocknr = rand(blocks) # random block where positions can be swapped
         row, col = block_nr_ind(blocknr)
         nrblock = block(row, col, sudoku)
@@ -685,13 +679,11 @@ module SudokuSolver
     827|614|953
     ```
     """
-    function sudoku_solver(sudoku)
+    function sudoku_solver(sudoku, cooling = 0.99)
         if !valid(sudoku)
             error("Input is not a valid sudoku")
         end
-        # Michiel: please add the parameters as optional keyword arguments
     	solved = 0
-	    cooling = 0.99
     	stuck = 0
         restart = 0
     	show_sudoku(sudoku)
@@ -712,7 +704,7 @@ module SudokuSolver
     	while solved == 0
 	    	lastscore = errors
 		    for i in 1:iterations
-			    newstate = swap(state, fixed, blocks, possible)
+			    newstate = swap(state, blocks, possible)
     			newerrors = nr_errors(newstate)
 
 	    		if newerrors == 0
