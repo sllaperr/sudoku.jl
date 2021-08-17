@@ -45,7 +45,7 @@ module SudokuSolver
 		    	if j == 4 || j == 7
 			    	line = line * "|"
     			end
-                if string(sudoku[i,j]) == 0
+                if string(sudoku[i,j]) == '0'
                     line = line * '.'
                 else
 	    		    line = line * string(sudoku[i,j])
@@ -463,7 +463,12 @@ module SudokuSolver
     ```
     """
     function not_fixed(fixed)
-    	nonfixed = findall(isequal(0), fixed)
+        nonfixed = []
+	    for (i, v) in enumerate(fixed)
+		    if v == 0
+			    append!(nonfixed, i)
+    		end
+	    end
     	return nonfixed
     end
 
