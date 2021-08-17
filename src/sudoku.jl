@@ -45,7 +45,7 @@ module SudokuSolver
 		    	if j == 4 || j == 7
 			    	line = line * "|"
     			end
-                if string(sudoku[i,j]) == '0'
+                if sudoku[i,j] == 0
                     line = line * '.'
                 else
 	    		    line = line * string(sudoku[i,j])
