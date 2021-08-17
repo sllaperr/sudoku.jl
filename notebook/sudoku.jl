@@ -146,7 +146,7 @@ Simulated annealing is used to find global optima in large, but discrete search 
 
 Annealing is a method in matalwork, where the speed by which the metal cools is controlled. This results in fewer defects, because the material forms a larger crystal structure. 
 
-Similarly, in simulated annealing, you start with a certain temperature. This temperature represents the chance that a step with a worse score (more errors) is accepted. A high temperature means a higher acceptance for mistakes. As the program runs, the temperature gets lower (cools down) and fewer errors are accepted. This means that the search is more global with higher temperatures, but becomes more local as the temperature decreases;
+Similarly, in simulated annealing, you start with a certain temperature. This temperature represents the chance that a step with a worse score (more errors) is accepted. A high temperature means a higher acceptance for mistakes. As the program runs, the temperature gets lower (cools down) and fewer errors are accepted. This means that the search is more global with higher temperatures, but becomes more local as the temperature decreases.
 
 ## SA for sudokus
 
@@ -376,7 +376,7 @@ end
 
 # ╔═╡ 48de2108-1677-4277-a33b-a02650636a76
 md"""
-Over all, it takes a long time to run, depending on how many positions are fixed. SA seems to be quik to find good results, but finding the actual solution is more difficult. The restart seems to be really necessary to keep the program on track. Due to the more global searching, sudokus with few errors are quickly found, but for the same reason, this good solution is also quickly discarded. A solution with as few as 2 errors is found quikly, but the actual sulution is harder to find. The cooling rate needs to kept low in order not to miss the solution.
+Over all, it takes a long time to run, depending on how many positions are fixed. SA seems to be quik to find good results, but finding the actual solution is more difficult. The restart seems to be necessary to keep the program on track. Due to the more global searching, sudokus with few errors are quickly found, but for the same reason, this good solution is also quickly discarded. A solution with as few as 2 errors is found quikly, but the actual sulution is harder to find. The cooling rate needs to kept low in order not to miss the solution.
 """
 
 # ╔═╡ 1c4bdb0f-52e8-4eca-a10d-85fee6fa3e1a
@@ -393,7 +393,7 @@ end
 md"""
 ## Conclusion
 
-SA is a quik way to solve simple sudokus, but is not a good fit for sudokus with fewer fixed values. Since SA does not keep track of which solutions have been tried already, it ends up trying more (identical) combinations than other algorithms use for sudoku solving. Better options would be a branch-and-bound method, or brute-force search with backtracking. Both keep track of arlready tried solutions and as such, dont try the same one over and over again. Given that SA does reach a low number of errors relatively quikly, perhaps a hybrid approach would work?
+SA is a quik way to solve simple sudokus, but is not a good fit for sudokus with fewer fixed values. Since SA does not keep track of which solutions have been tried already, it ends up trying more (identical) combinations than other algorithms use for sudoku solving. Better options would be a branch-and-bound method, or brute-force search with backtracking. Both keep track of arlready tried solutions and as such, dont try the same one repeatedly. Given that SA does reach a low number of errors relatively quikly, perhaps a hybrid approach would work?
 """
 
 # ╔═╡ bac46fbd-5c17-4418-b59d-136bac701b63
